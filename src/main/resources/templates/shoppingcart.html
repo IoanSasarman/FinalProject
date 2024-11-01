@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Shopping Cart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .content {
+            background-image: url('https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg');
+            background-image: cover;
+            background-color: rgba(255,255,255,0.6);
+            background-blend-mode: lighten;
+      }
+        .main-image {
+            width: auto;
+            height: 400px;
+            margin-bottom: 20px;
+            margin-right: 150px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/shoppingcart}">My Shopping Cart</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/mvc}">Products</a>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-outline-danger">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<img src="https://img.freepik.com/premium-vector/medical-shop-store-trolley-capsule-logo-vector-icon-illustration_7688-3160.jpg"
+     alt="Medicine Shop" class="main-image">
+
+<h2>
+    Shopping cart products
+</h2>
+
+<div id="content"></div>
+
+<div th:if="${ not #lists.isEmpty(productShoppingCartList)}">
+    <table class="table table-striped w-50">
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Currency</th>
+        </tr>
+        <tr th:each="productShoppingCart : ${productShoppingCartList}">
+            <td th:text="${productShoppingCart.id}"></td>
+            <td th:text="${productShoppingCart.name}"></td>
+            <td th:text="${productShoppingCart.price}"></td>
+            <td th:text="${productShoppingCart.currency}"></td>
+            <td><a href="shoppingcart.html" th:href="@{/shoppingcart/delete(id=${productShoppingCart.id})}">Remove from
+                Shopping Cart</a></td>
+        </tr>
+    </table>
+</div>
+<div th:if="${ #lists.isEmpty(productShoppingCartList)}">
+    <h1>No products in the shopping cart.</h1>
+</div>
+<p>Total Price: <span th:text="${totalPrice}"></span><span style="margin-left: 5px;" th:text="${currency}"></span>
+</p>
+
+<p>
+    Delivering Country: <input type="text"/>
+</p>
+<p>
+    Delivering City: <input type="text"/>
+</p>
+<p>
+    Delivering Address: <input type="text"/>
+</p>
+<p>
+    Name of Recipient: <input type="text"/>
+</p>
+
+<a href="#" th:href="@{/shoppingcart/clear}" class="btn btn-primary">Submit Order</a>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('cleared')) {
+        alert('Order has been submitted');
+    }
+</script>
+</body>
+</html>
