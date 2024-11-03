@@ -41,6 +41,7 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
+                        .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error=true")
                         .permitAll()

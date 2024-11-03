@@ -66,7 +66,7 @@
             <td th:text="${productShoppingCart.name}"></td>
             <td th:text="${productShoppingCart.price}"></td>
             <td th:text="${productShoppingCart.currency}"></td>
-            <td><a href="shoppingcart.html" th:href="@{/shoppingcart/delete(id=${productShoppingCart.id})}">Remove from
+            <td><a href="shoppingcart.html" class="btn btn-primary" th:href="@{/shoppingcart/delete(id=${productShoppingCart.id})}">Remove from
                 Shopping Cart</a></td>
         </tr>
     </table>

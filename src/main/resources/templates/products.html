@@ -66,9 +66,9 @@
             <td th:text="${product.name}"></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.currency}"></td>
-            <td><a href="products.html" th:href="@{/mvc/update(id=${product.id})}">Update</a></td>
-            <td><a href="products.html" th:href="@{/mvc/delete(id=${product.id})}">Delete</a></td>
-            <td><a href="products.html" th:href="@{/mvc/addToCart(id=${product.id})}">Add to cart</a></td>
+            <td><a href="products.html" th:href="@{/mvc/update(id=${product.id})}" class="btn btn-primary">Update</a></td>
+            <td><a href="products.html" th:href="@{/mvc/delete(id=${product.id})}" class="btn btn-primary">Delete</a></td>
+            <td><a href="products.html" th:href="@{/mvc/addToCart(id=${product.id})}" class="btn btn-primary">Add to cart</a></td>
         </tr>
     </table>
 </div>

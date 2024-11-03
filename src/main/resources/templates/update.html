@@ -19,13 +19,13 @@
     <p>Name: <input type="text" th:field="*{name}"/></p>
     <p>Price: <input type="text" th:field="*{price}"/></p>
     <p>Currency: <input type="text" th:field="*{currency}"/></p>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    <p><input type="submit" class="btn btn-primary" value="Submit"/> <input type="reset" class="btn btn-primary" value="Reset"/></p>
 </form>
 
-<button onclick="history.back()">Go Back</button>
+<button onclick="history.back()" class="btn btn-primary">Go Back</button>
 <br/>
 <a href="/home">
-    <button>Home</button>
+    <button class="btn btn-primary">Home</button>
 </a>
 </body>
 
