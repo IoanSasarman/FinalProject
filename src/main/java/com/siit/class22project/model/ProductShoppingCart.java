@@ -11,8 +11,10 @@ public class ProductShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
+    @Column(name = "cartitemid", nullable = false, updatable = false)
+    private Long cartItemId;
+    @Column(name = "userid", nullable = false)
+    private Long userId;
     @Column(name = "name")
     private String name;
     @Column(name = "price")

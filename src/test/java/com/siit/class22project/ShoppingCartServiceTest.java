@@ -1,8 +1,6 @@
 package com.siit.class22project;
 
-import com.siit.class22project.model.Product;
 import com.siit.class22project.model.ProductShoppingCart;
-import com.siit.class22project.repository.ProductJPARepository;
 import com.siit.class22project.repository.ShoppingCartJPARepository;
 import com.siit.class22project.service.ShoppingCartService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,55 +9,56 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 
 class ShoppingCartServiceTest {
 
     @Mock
     private ShoppingCartJPARepository shoppingCartJPARepository;
 
-    @Mock
-    private ProductJPARepository productJPARepository;
-
     @InjectMocks
     private ShoppingCartService shoppingCartService;
 
+    private final Long userId = 1L;
+    private final Long cartItemId = 1L;
+
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void addToCart_ShouldSaveProductToShoppingCart() {
-        Long productId = 1L;
-        Product mockProduct = new Product();
-        mockProduct.setId(productId);
-        when(productJPARepository.findById(productId)).thenReturn(Optional.of(mockProduct));
-        when(shoppingCartJPARepository.save(any(ProductShoppingCart.class))).thenReturn(mockProduct.toShoppingCart());
+    public void testGetCurrentUserShoppingCartProducts() {
+        ProductShoppingCart cartItem1 = new ProductShoppingCart();
+        cartItem1.setName("TestProduct1");
+        ProductShoppingCart cartItem2 = new ProductShoppingCart();
+        cartItem2.setName("TestProduct2");
+        when(shoppingCartJPARepository.findAllByUserId(userId)).thenReturn(List.of(cartItem1, cartItem2));
 
-        shoppingCartService.addToCart(productId);
+        List<ProductShoppingCart> products = shoppingCartService.getCurrentUserShoppingCartProducts(userId);
 
-        verify(shoppingCartJPARepository, times(1)).save(any(ProductShoppingCart.class));
+        assertEquals(2, products.size());
+        verify(shoppingCartJPARepository, times(1)).findAllByUserId(userId);
     }
 
     @Test
-    void deleteProductShoppingCartById_ShouldDeleteProduct() {
-        Long productId = 1L;
-        ProductShoppingCart mockProductInCart = new ProductShoppingCart();
-        when(shoppingCartJPARepository.findById(productId)).thenReturn(Optional.of(mockProductInCart));
+    public void testDeleteProductShoppingCartByCartItemId() {
+        when(shoppingCartJPARepository.findByCartItemId(cartItemId)).thenReturn(Optional.of(new ProductShoppingCart()));
 
-        shoppingCartService.deleteProductShoppingCartById(productId);
+        shoppingCartService.deleteProductShoppingCartByCartItemId(cartItemId);
 
-        verify(shoppingCartJPARepository, times(1)).deleteById(productId);
+        verify(shoppingCartJPARepository, times(1)).deleteByCartItemId(cartItemId);
     }
 
     @Test
-    void clearShoppingCart_ShouldDeleteAllProductsInCart() {
-        shoppingCartService.clearShoppingCart();
+    public void testClearCurrentUserShoppingCart() {
+        shoppingCartService.clearCurrentUserShoppingCart(userId);
 
-        verify(shoppingCartJPARepository, times(1)).deleteAll();
+        verify(shoppingCartJPARepository, times(1)).deleteAllByUserId(userId);
     }
 }

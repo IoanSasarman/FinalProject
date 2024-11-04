@@ -1,15 +1,12 @@
 package com.siit.class22project.controller;
 
 import com.siit.class22project.model.ProductShoppingCart;
-import com.siit.class22project.repository.ProductJPARepository;
-import com.siit.class22project.service.ProductService;
 import com.siit.class22project.service.ShoppingCartService;
+import com.siit.class22project.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -23,7 +20,8 @@ public class ShoppingCartController {
 
     @GetMapping
     public String prepareCheckout(Model model) {
-        List<ProductShoppingCart> productShoppingCartList = shoppingCartService.getShoppingCartProducts(Pageable.ofSize(100));
+        List<ProductShoppingCart> productShoppingCartList =
+                shoppingCartService.getCurrentUserShoppingCartProducts(UserUtil.getCurrentUserId());
         String currency = null;
         if (!productShoppingCartList.isEmpty()) {
             currency = productShoppingCartList.getFirst().getCurrency();
@@ -36,7 +34,7 @@ public class ShoppingCartController {
 
     @GetMapping("/delete")
     public String delete(Long id) {
-        shoppingCartService.deleteProductShoppingCartById(id);
+        shoppingCartService.deleteProductShoppingCartByCartItemId(id);
         return "redirect:/shoppingcart";
     }
 
@@ -50,7 +48,7 @@ public class ShoppingCartController {
 
     @GetMapping("/clear")
     public String clear() {
-        shoppingCartService.clearShoppingCart();
+        shoppingCartService.clearCurrentUserShoppingCart(UserUtil.getCurrentUserId());
         return "redirect:/shoppingcart?cleared=true";
     }
 }

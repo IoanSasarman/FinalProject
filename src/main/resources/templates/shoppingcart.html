@@ -56,17 +56,15 @@
 <div th:if="${ not #lists.isEmpty(productShoppingCartList)}">
     <table class="table table-striped w-50">
         <tr>
-            <th>Id</th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Currency</th>
         </tr>
         <tr th:each="productShoppingCart : ${productShoppingCartList}">
-            <td th:text="${productShoppingCart.id}"></td>
             <td th:text="${productShoppingCart.name}"></td>
             <td th:text="${productShoppingCart.price}"></td>
             <td th:text="${productShoppingCart.currency}"></td>
-            <td><a href="shoppingcart.html" class="btn btn-primary" th:href="@{/shoppingcart/delete(id=${productShoppingCart.id})}">Remove from
+            <td><a href="shoppingcart.html" class="btn btn-primary" th:href="@{/shoppingcart/delete(id=${productShoppingCart.cartItemId})}">Remove from
                 Shopping Cart</a></td>
         </tr>
     </table>
